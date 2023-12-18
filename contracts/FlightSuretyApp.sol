@@ -5,13 +5,14 @@ pragma solidity ^0.4.25;
 // More info: https://www.nccgroup.trust/us/about-us/newsroom-and-events/blog/2018/november/smart-contract-insecurity-bad-arithmetic/
 
 import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "./FlightSuretyData.sol";
 
 /************************************************** */
 /* FlightSurety Smart Contract                      */
 /************************************************** */
 contract FlightSuretyApp {
     using SafeMath for uint256; // Allow SafeMath functions to be called for all uint256 types (similar to "prototype" in Javascript)
-
+    FlightSuretyData private flightSuretyData;
     /********************************************************************************************/
     /*                                       DATA VARIABLES                                     */
     /********************************************************************************************/
@@ -31,9 +32,10 @@ contract FlightSuretyApp {
         uint8 statusCode;
         uint256 updatedTimestamp;        
         address airline;
+        string flightNumber;
     }
     mapping(bytes32 => Flight) private flights;
-
+    mapping(address => address[]) private airlinesVoted;
  
     /********************************************************************************************/
     /*                                       FUNCTION MODIFIERS                                 */
@@ -50,7 +52,7 @@ contract FlightSuretyApp {
     modifier requireIsOperational() 
     {
          // Modify to call data contract's status
-        require(true, "Contract is currently not operational");  
+        require(flightSuretyData.isOperational(), "Contract is currently not operational");  
         _;  // All modifiers require an "_" which indicates where the function body will be added
     }
 
@@ -72,10 +74,12 @@ contract FlightSuretyApp {
     *
     */
     constructor
-                                (
+                                ( 
+                                    address data
                                 ) 
                                 public 
     {
+        flightSuretyData = FlightSuretyData(data);
         contractOwner = msg.sender;
     }
 
@@ -84,11 +88,14 @@ contract FlightSuretyApp {
     /********************************************************************************************/
 
     function isOperational() 
-                            public 
-                            pure 
+                            public  
                             returns(bool) 
     {
-        return true;  // Modify to call data contract's status
+        if(flightSuretyData.isOperational()){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     /********************************************************************************************/
@@ -102,14 +109,28 @@ contract FlightSuretyApp {
     */   
     function registerAirline
                             (   
+                                string  registerAirlineName,
+                                address registerAirlineaddress,
+                                address senderAddress
                             )
                             external
-                            pure
-                            returns(bool success, uint256 votes)
     {
-        return (success, 0);
+       
+       if(flightSuretyData.registerAirline(registerAirlineName, registerAirlineaddress, senderAddress)){
+         airlinesVoted[registerAirlineaddress].push(msg.sender);
+       }
     }
 
+   /**
+    * @dev get list of airlines 
+    *
+    */   
+    // Function to get the list of airlineStruct
+    
+    function getAirlinesList() public view returns  (address[])  {
+
+        return flightSuretyData.getAirlinesList();
+    }
 
    /**
     * @dev Register a future flight for insuring.

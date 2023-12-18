@@ -7,24 +7,102 @@
     <title>FlightSurety</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        input:required {
+            border: 2px solid #ff0000;
+        }
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
 </head>
 
 <body>
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <a class="navbar-brand" href="#">FlightSurety</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
-            aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
     </nav>
 
-    <main class="container">
 
+    <main class="container">
         <div id="display-wrapper" class="top-20">
         </div>
+
+
+        <div>
+            <h1>Get Registered Airlines</h1>
+            <div class="flex-container top-20">
+                <btn class="btn btn-primary" id="registered-airlines">Get Registered Airlines</btn>
+            </div>
+        </div>
+
+        <div>
+            <h1>Fund Airline</h1>
+            <div class="top-20 flex-container">
+                <label class="text" id="add">Airline Address</label>
+                <input type="text" id="from-fund-address" required>
+                <label class="text">Amount</label>
+                <input type="text" id="from-fund-amount" required>
+                <btn class="btn btn-primary" id="fund-airline">Fund</btn>
+            </div>
+        </div>
+
+        <div id="reg">
+            <h1>Register an Airline</h1>
+            <div class="top-20 flex-container">
+                <label class="text">Airline Name</label>
+                <input type="text" id="airline-name" required>
+                <label class="form">Airline Address</label>
+                <input type="text" id="airline-address" required>
+                <label class="form">Sender Address</label>
+                <input type="text" id="sender-address" required>
+                <btn class="btn btn-primary" id="airline-register">Register</btn>
+            </div>
+        </div>
+
+        <div>
+            <h1>Insurance Purchase</h1>
+            <div class="top-20 flex-container">
+                <label for="flight-names">Choose a flight:</label> 
+                <select name="flight-name" id="flight-name"> 
+                    <option value="FL01">FL01</option> 
+                    <option value="FL02">FL02</option> 
+                    <option value="FL03">FL03</option> 
+                    <option value="FL04">FL04</option> 
+                </select>
+                <label class="text" >Passenger Address</label>
+                <input type="text" id="passenger-address" required>
+                <label class="text">Insurance Amount ETH</label>
+                <input type="text" id="insurance-amount" required>
+                <btn class="btn btn-primary" id="buy-insurance">Buy</btn>
+            </div>
+        </div>
+
+        <div>
+            <h1>Oracles Section</h1>
+            <div class="top-20 flex-container">
+                <label for="flight-status-names">Choose a flight:</label> 
+                <select name="flight-status-name" id="flight-status-name"> 
+                    <option value="FL01">FL01</option> 
+                    <option value="FL02">FL02</option> 
+                    <option value="FL03">FL03</option> 
+                    <option value="FL04">FL04</option> 
+                </select>
+                <label class="text" >Get Status</label>
+                <input type="text" id="flight-status-response"  readonly required>
+                <btn class="btn btn-primary" id="get-status">Flight Status</btn>
+            </div>
+        </div>
+
+
         <div class="row top-20">
-            <label class="form">Flight</label> <input type="text" id="flight-number"> <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn>
+            <label class="form">Flight</label> <input type="text" id="flight-number">
+            <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn>
         </div>
     </main>
 
